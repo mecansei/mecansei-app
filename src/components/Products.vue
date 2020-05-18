@@ -2,7 +2,7 @@
   <div class="main-products-class">
     <div class="swap-products">
       <div class="products-container">
-        <img :src="imgUrl" v-bind:alt="imgUrl" />
+        <img :src="imgUrl" v-bind:alt="imgUrl" class="image-container" />
       </div>
     </div>
   </div>
@@ -19,4 +19,8 @@ export default {
 </script>
 
 <style scoped>
+.image-container {
+  width: 100%;
+  height: auto;
+}
 </style>
