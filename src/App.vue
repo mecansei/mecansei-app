@@ -1,32 +1,37 @@
 <template>
   <div id="app">
-    <!-- <Products
-      msg="test"
-      imgUrl="https://static.netshoes.com.br/produtos/tenis-nike-court-lite-2-masculino/06/HZM-1864-006/HZM-1864-006_zoom1.jpg?ts=1583774895&ims=544x"
-    />-->
-    <Login />
+    <transition
+      name="router-anim"
+      enter-active-class="animated fadeInUp"
+      leave-active-class="animated fadeOutUp"
+    >
+      <router-view />
+    </transition>
   </div>
 </template>
 
 <script>
-//import Products from "./components/Products.vue";
-import Login from "./components/Login.vue";
-
 export default {
-  name: "App",
-  components: {
-    Login
-  }
+  name: "App"
 };
 </script>
 
 <style>
+@import "https://cdn.jsdelivr.net/npm/animate.css@3.5.1";
+* {
+  border: 0;
+  margin: 0;
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  background-color: rgba(0, 0, 0, 0.03);
+  position: relative;
+  height: 100vh;
+  width: 100%;
 }
 </style>

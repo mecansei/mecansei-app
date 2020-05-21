@@ -2,7 +2,7 @@
   <div class="field-container">
     <div class="field">
       <i class="icon">
-        <img :src="icon" />
+        <img :src="icon" class="img" />
       </i>
       <input :type="type" id="fid" name="fname" :placeholder="value" />
     </div>
@@ -23,18 +23,28 @@ export default {
 <style scoped>
 .field {
   text-align: center;
+  background-color: white;
+  border-radius: 20px;
+  padding: 10px;
+  border-width: 10px;
+  border-color: orange;
+}
+.field:hover {
+  cursor: pointer;
 }
 .field-container {
   display: flex;
   width: 100%;
-  background-color: white;
-  border-radius: 22px;
 }
 .icon {
-  padding: 2px;
+  padding: 10px;
   color: white;
   min-width: 30px;
   text-align: center;
+}
+.img {
+  position: relative;
+  top: 5px;
 }
 #fid {
   background-color: transparent;
