@@ -3,7 +3,10 @@
     <div class="icon-container user-settings-container">
       <img :src="require('@/assets/userMenu.svg')" class="icon" />
     </div>
-    <div class="icon-container foot-more-info-container">
+    <div
+      class="icon-container foot-more-info-container"
+      v-on:click="updateTabValue(1)"
+    >
       <img :src="require('@/assets/foot.svg')" class="icon foot-icon" />
     </div>
     <div class="icon-container chat-container">
@@ -14,12 +17,20 @@
 
 <script>
 export default {
-  name: "Menu"
+  name: "Menu",
+  props: ["currentTabIndex"],
+  methods: {
+    updateTabValue: function(value) {
+      console.info(value);
+      this.$emit("click", value);
+    }
+  }
 };
 </script>
 
 <style scoped>
 .menu-container {
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
