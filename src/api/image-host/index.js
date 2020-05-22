@@ -2,14 +2,27 @@ const request = require("request-promise");
 
 const HOST = "http://localhost:8080";
 
-export async function getImage(imageTail) {
-  return await request(`${HOST}/static/images${imageTail}`);
+export function getImageUrl(imageTail) {
+  return `${HOST}/statics/images${imageTail}`
 }
-export function checkHealth() {
+
+export async function getImage(imageTail) {
+  const imgUrl = getImageUrl(imageTail)
+  return request.get({
+    headers: {
+      'Host': imgUrl,
+      'User-Agent': 'PostmanRuntime/7.24.1',
+      'Accept': '*/*',
+      'Accept-Encoding': 'gzip, deflate, br',
+      'Connection': 'keep-alive'
+    },
+    uri: imgUrl,
+  })
+}
+export async function checkHealth() {
   console.info(`${HOST}/health`)
   const healthUrl = `${HOST}/health`
-  let results = []
-  let health = request.get({
+  return request.get({
     headers: {
       'Host': healthUrl,
       'User-Agent': 'PostmanRuntime/7.24.1',
@@ -18,16 +31,5 @@ export function checkHealth() {
       'Connection': 'keep-alive'
     },
     uri: healthUrl,
-    transform: function (body, res) {
-      res.data = JSON.parse(body)
-      return res
-    }
-  }).then(function (res) {
-    results.push(res.data)
-  }).catch(function (err) {
-    console.error(err)
-    results.push(err)
-  });
-  console.info(health)
-  return results
+  })
 }

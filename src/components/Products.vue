@@ -43,10 +43,34 @@ import { api } from "../api";
 let imgUrl =
   "https://static.netshoes.com.br/produtos/tenis-asics-gel-impression-9-masculino/02/D18-0637-002/D18-0637-002_zoom1.jpg?ts=1560986040&?ims=544xhttps://static.netshoes.com.br/produtos/tenis-asics-gel-impression-9-masculino/02/D18-0637-002/D18-0637-002_zoom1.jpg?ts=1560986040&?ims=1088x";
 
+function setNewImage() {
+  let serverStatus = api.checkHealth();
+  serverStatus.then(res => {
+    console.info("resolved!");
+    if (!res) {
+      let nextProduct = api.nextProduct();
+      nextProduct.then(res => {
+        if (res) {
+          console.info(res);
+          let productData = JSON.parse(res);
+          let nextImage = api.getImage(productData.photos[0]);
+          console.info(nextImage);
+          nextImage.then(() => {
+            let imgHtml = document.getElementById("productImg");
+            console.info(imgHtml);
+            imgHtml.src = api.getImageUrl(productData.photos[0]);
+          });
+        }
+      });
+      //let nextImage = api.
+    }
+  });
+}
 export default {
   name: "Products",
   props: {
-    msg: String
+    msg: String,
+    imgUrl: String
   },
   components: {
     MenuBar,
@@ -54,12 +78,10 @@ export default {
   },
   methods: {
     like() {
-      console.info("like");
-      this.$children[0].$emit("next-image");
-      api.checkHealth();
+      setNewImage();
     },
     dislike() {
-      console.info("dislike");
+      setNewImage();
     },
     setImage() {
       return imgUrl;
