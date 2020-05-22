@@ -1,143 +1,48 @@
 <template>
-  <div class="main-products-class page">
-    <div class="swap-products">
-      <div class="products-container">
-        <div class="brand-container">
-          <div class="login-title">
-            <span id="title-me">me</span>
-            <span>cansei</span>
-          </div>
-        </div>
-        <!-- Hello {{ $route.params.token }} {{ $route.params.userValue }} /!-->
-        <!-- <ProductCard v-on:next-image="$emit('next-image')" /> /!-->
-        <div class="product-card" v-on:next-image="nextImage()">
-          <img :src="setImage()" class="image-container" id="productImg" />
-        </div>
-      </div>
-    </div>
-    <div class="like-dislike-container">
-      <div class="dislike-button">
-        <img
-          :src="require('@/assets/thumb-down.svg')"
-          class="thumb-img"
-          v-on:click="dislike()"
-        />
-      </div>
-      <div class="swap-up-button"></div>
-      <div class="like-button">
-        <img
-          :src="require('@/assets/thumb-up.svg')"
-          class="thumb-img"
-          v-on:click="like()"
-        />
-      </div>
-    </div>
-    <MenuBar />
+  <div class="products-main-class page">
+    <keep-alive>
+      <component :is="currentComponent"></component>
+    </keep-alive>
+    <MenuBar @changeMenuContext="changeMenuByIndex" />
   </div>
 </template>
 
 <script>
 import MenuBar from "@/components/MenuBar.vue";
-import ProductCard from "@/components/ProductCard.vue";
-import { api } from "../api";
-let imgUrl =
-  "https://static.netshoes.com.br/produtos/tenis-asics-gel-impression-9-masculino/02/D18-0637-002/D18-0637-002_zoom1.jpg?ts=1560986040&?ims=544xhttps://static.netshoes.com.br/produtos/tenis-asics-gel-impression-9-masculino/02/D18-0637-002/D18-0637-002_zoom1.jpg?ts=1560986040&?ims=1088x";
+import SwapProducts from "@/components/SwapProducts.vue";
+import UserPreferences from "@/components/UserPreferences.vue";
+import UserChat from "@/components/UserChat.vue";
 
-function setNewImage() {
-  let serverStatus = api.checkHealth();
-  serverStatus.then(res => {
-    console.info("resolved!");
-    if (!res) {
-      let nextProduct = api.nextProduct();
-      nextProduct.then(res => {
-        if (res) {
-          console.info(res);
-          let productData = JSON.parse(res);
-          let nextImage = api.getImage(productData.photos[0]);
-          console.info(nextImage);
-          nextImage.then(() => {
-            let imgHtml = document.getElementById("productImg");
-            console.info(imgHtml);
-            imgHtml.src = api.getImageUrl(productData.photos[0]);
-          });
-        }
-      });
-      //let nextImage = api.
-    }
-  });
-}
+const allComponents = [UserPreferences, SwapProducts, UserChat];
+let currentComponent = allComponents[1];
 export default {
   name: "Products",
-  props: {
-    msg: String,
-    imgUrl: String
-  },
   components: {
-    MenuBar,
-    ProductCard
+    SwapProducts,
+    MenuBar
   },
   methods: {
-    like() {
-      setNewImage();
-    },
-    dislike() {
-      setNewImage();
-    },
-    setImage() {
-      return imgUrl;
-    },
-    nextImage() {
-      console.info("calling next image from child component");
+    changeMenuByIndex: function(index) {
+      this.currentComponent = allComponents[index];
     }
+  },
+  data() {
+    return {
+      allComponents,
+      currentComponent
+    };
   }
 };
 </script>
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Cambay&display=swap");
-.like-dislike-container {
+
+.products-main-class {
   position: relative;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-around;
   align-items: center;
-}
-.thumb-img {
-  position: relative;
-  min-width: 12vh;
-  margin: 3vh;
-}
-.brand-container {
-  position: relative;
-  display: flex;
-}
-.login-title {
-  position: relative;
-  padding-left: 40px;
-  font-family: Cambay;
-  font-size: 34px;
-  font-weight: normal;
-  font-style: normal;
-  line-height: 104px;
-}
-#title-me {
-  font-weight: bold;
-  color: orange;
-}
-
-.page {
-  position: fixed;
-  width: inherit;
-}
-
-.product-card {
-  margin: 10px;
-}
-.image-container {
-  width: 100%;
-  height: 50vh;
-  border-style: solid;
-  border-color: transparent;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 </style>
