@@ -14,13 +14,4 @@ new Vue({
     App
   },
   template: '<App/>',
-  data: {
-    currentTabIndex: 1,
-    currentComponent: "ProductsComponent"
-  },
-  methods: {
-    swapComponent: function (component) {
-      this.currentComponent = component;
-    }
-  }
 })

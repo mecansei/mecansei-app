@@ -1,6 +1,9 @@
 <template>
   <div class="menu-container">
-    <div class="icon-container user-settings-container">
+    <div
+      class="icon-container user-settings-container"
+      v-on:click="updateTabValue(0)"
+    >
       <img :src="require('@/assets/userMenu.svg')" class="icon" />
     </div>
     <div
@@ -9,7 +12,7 @@
     >
       <img :src="require('@/assets/foot.svg')" class="icon foot-icon" />
     </div>
-    <div class="icon-container chat-container">
+    <div class="icon-container chat-container" v-on:click="updateTabValue(2)">
       <img :src="require('@/assets/chat.svg')" class="icon" />
     </div>
   </div>
@@ -18,11 +21,9 @@
 <script>
 export default {
   name: "Menu",
-  props: ["currentTabIndex"],
   methods: {
     updateTabValue: function(value) {
-      console.info(value);
-      this.$emit("click", value);
+      this.$emit("changeMenuContext", value);
     }
   }
 };

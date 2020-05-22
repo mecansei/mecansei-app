@@ -124,8 +124,7 @@ export default {
   margin: 10px;
 }
 .image-container {
-  width: 100%;
-  height: 50vh;
+  height: 43vh;
   border-style: solid;
   border-color: transparent;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);

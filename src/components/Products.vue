@@ -3,38 +3,33 @@
     <keep-alive>
       <component :is="currentComponent"></component>
     </keep-alive>
-    <SwapProducts />
-    <MenuBar v-model="this.$data.currentTabIndex" />
+    <MenuBar @changeMenuContext="changeMenuByIndex" />
   </div>
 </template>
 
 <script>
 import MenuBar from "@/components/MenuBar.vue";
 import SwapProducts from "@/components/SwapProducts.vue";
+import UserPreferences from "@/components/UserPreferences.vue";
+import UserChat from "@/components/UserChat.vue";
 
-const allComponents = [null, SwapProducts, null];
+const allComponents = [UserPreferences, SwapProducts, UserChat];
+let currentComponent = allComponents[1];
 export default {
   name: "Products",
   components: {
     SwapProducts,
-    MenuBar,
-    ProductsComponent: SwapProducts
+    MenuBar
   },
   methods: {
-    swapComponent: function(component) {
-      this.currentComponent = component;
-    }
-  },
-  watch: {
-    currentTabIndex: function(val) {
-      console.info("changing the current index in a parent component: " + val);
-      this.swapComponent(allComponents[this.currentComponent]);
+    changeMenuByIndex: function(index) {
+      this.currentComponent = allComponents[index];
     }
   },
   data() {
     return {
       allComponents,
-      currentComponent: this.$data
+      currentComponent
     };
   }
 };
