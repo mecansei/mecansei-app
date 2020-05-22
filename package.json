@@ -1,7 +1,7 @@
 {
-  "name": "vue-route-01",
+  "name": "me-cansei",
   "version": "1.0.0",
-  "description": "A Vue.js project",
+  "description": "Me cansei app",
   "author": "Gabriel Valderramos <gabrielvalderramos@gmail.com>",
   "private": true,
   "scripts": {
@@ -11,6 +11,8 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "request": "^2.88.2",
+    "request-promise": "^4.2.5",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },

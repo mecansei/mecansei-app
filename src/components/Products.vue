@@ -9,8 +9,9 @@
           </div>
         </div>
         <!-- Hello {{ $route.params.token }} {{ $route.params.userValue }} /!-->
-        <div class="product-card">
-          <img :src="imgUrl" :alt="imgUrl" class="image-container" />
+        <!-- <ProductCard v-on:next-image="$emit('next-image')" /> /!-->
+        <div class="product-card" v-on:next-image="nextImage()">
+          <img :src="setImage()" class="image-container" id="productImg" />
         </div>
       </div>
     </div>
@@ -31,11 +32,14 @@
         />
       </div>
     </div>
-    <div class="bottom-buttons-container"></div>
+    <MenuBar />
   </div>
 </template>
 
 <script>
+import MenuBar from "@/components/MenuBar.vue";
+import ProductCard from "@/components/ProductCard.vue";
+import { api } from "../api";
 let imgUrl =
   "https://static.netshoes.com.br/produtos/tenis-asics-gel-impression-9-masculino/02/D18-0637-002/D18-0637-002_zoom1.jpg?ts=1560986040&?ims=544xhttps://static.netshoes.com.br/produtos/tenis-asics-gel-impression-9-masculino/02/D18-0637-002/D18-0637-002_zoom1.jpg?ts=1560986040&?ims=1088x";
 
@@ -44,19 +48,25 @@ export default {
   props: {
     msg: String
   },
+  components: {
+    MenuBar,
+    ProductCard
+  },
   methods: {
     like() {
       console.info("like");
+      this.$children[0].$emit("next-image");
+      api.checkHealth();
     },
     dislike() {
       console.info("dislike");
+    },
+    setImage() {
+      return imgUrl;
+    },
+    nextImage() {
+      console.info("calling next image from child component");
     }
-  },
-  data() {
-    return {
-      imgUrl,
-      hover: false
-    };
   }
 };
 </script>
@@ -67,7 +77,7 @@ export default {
   position: relative;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 }
 .thumb-img {
@@ -92,18 +102,20 @@ export default {
   font-weight: bold;
   color: orange;
 }
-.product-card {
-  margin: 10px;
-  border-style: solid;
-  border-color: transparent;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-}
-.image-container {
-  width: 100%;
-  height: auto;
-}
+
 .page {
   position: fixed;
   width: inherit;
+}
+
+.product-card {
+  margin: 10px;
+}
+.image-container {
+  width: 100%;
+  height: 50vh;
+  border-style: solid;
+  border-color: transparent;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 </style>
