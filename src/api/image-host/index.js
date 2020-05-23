@@ -1,6 +1,6 @@
 const request = require("request-promise");
 
-const HOST = "http://localhost:8080";
+const HOST = process.env.IMAGE_HOST;
 
 export function getImageUrl(imageTail) {
   return `${HOST}/statics/images${imageTail}`

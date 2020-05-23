@@ -1,6 +1,6 @@
 const request = require("request-promise");
 
-const HOST = "http://localhost:8081";
+const HOST = process.env.PRODUCT_CATALOG;
 
 export async function nextProduct() {
   return await request(`${HOST}/product`);
